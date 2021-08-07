@@ -3,6 +3,25 @@ from bs4 import BeautifulSoup
 import os
 
 
+def filter_name(name):
+
+	name = name.replace('\t\t\t\t', ' ')
+	name = name.replace('\\', '~')
+	name = name.replace('/', '~')
+	name = name.replace(':', '~')
+	name = name.replace('*', '~')
+	name = name.replace('?', '~')
+	name = name.replace('"', '~')
+	name = name.replace('<', '~')
+	name = name.replace('>', '~')
+	name = name.replace('|', '~')
+
+	result = name
+
+	return result
+
+
+
 def createFolder(name):
 
 	if not os.path.exists(name):
@@ -77,7 +96,7 @@ if __name__ == '__main__':
 		# 테이블 제목 추출
 		for table in tables:
 
-			title = table.get_text().strip()
+			title = filter_name( (table.get_text().strip()) )
 			link = table.attrs['href']
 			print("====================")
 			print( '(' + str(cur) + '/'  + str(list_size) + ')' ) # 현재 진행도

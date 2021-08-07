@@ -58,7 +58,8 @@ if __name__ == '__main__':
 
 
 	url = input('다운 받고자 하는 만화 URL 입력: ')
-
+	save_folder = input('저장될 폴더의 이름 입력: ')
+	createFolder( save_folder )
 
 	res = requests.get(url)
 
@@ -85,10 +86,10 @@ if __name__ == '__main__':
 			print("====================")
 
 			# 폴더 생성
-			createFolder( title )
+			createFolder( save_folder +'\\'+ title )
 
 			# 만화 저장
-			saveManga( title, 'https://marumaru.cloud'+link )
+			saveManga( save_folder +'\\'+ title, 'https://marumaru.cloud'+link )
 
 			cur += 1
 

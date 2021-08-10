@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-
+import time
 
 # 정규 표현 필터 함수
 def Reg(name):
@@ -105,6 +105,10 @@ if __name__ == '__main__':
 	save_folder = input('저장될 폴더의 이름 입력: ')
 	createFolder( save_folder )
 
+
+	start_time = time.time()
+
+
 	res = requests.get(url)
 
 	if res.status_code == 200:
@@ -124,11 +128,11 @@ if __name__ == '__main__':
 			title = filter_name( (table.get_text().strip()) )
 
 			link = table.attrs['href']
-			print("====================")
+			print("====================================================")
 			print( '(' + str(cur) + '/'  + str(list_size) + ')' ) # 현재 진행도
 			print( '제목: ' + title )
 			print( 'URL: ' + 'https://marumaru.cloud'+link )
-			print("====================")
+			print("====================================================")
 
 			# 폴더 생성
 			createFolder( save_folder +'\\'+ title )
@@ -137,6 +141,11 @@ if __name__ == '__main__':
 			saveManga( save_folder +'\\'+ title, 'https://marumaru.cloud'+link )
 
 			cur += 1
+
+
+		print('\n****************************')
+		print('\a작업 완료. 총 ' + str(round(time.time() - start_time, 1)) + '초 소요.')
+		print('****************************\n')
 
 
 	else:

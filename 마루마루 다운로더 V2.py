@@ -3,9 +3,27 @@ from bs4 import BeautifulSoup
 import os
 
 
+# 정규 표현 필터 함수
+def Reg(name):
+
+	import re
+
+	a = re.compile('[(]\d[)][개]') # 댓글 유무
+	result = a.search( name )
+
+	if( result ):
+		return name.replace( result[0], '' )
+
+	else:
+		return name
+
+
 def filter_name(name):
 
 	name = name.replace('\t\t\t\t', ' ')
+	name = name.replace('\t\t\t', ' ')
+	name = name.replace('\t\t', ' ')
+	name = name.replace('\t', ' ')
 	name = name.replace('\\', '~')
 	name = name.replace('/', '~')
 	name = name.replace(':', '~')
@@ -15,6 +33,8 @@ def filter_name(name):
 	name = name.replace('<', '~')
 	name = name.replace('>', '~')
 	name = name.replace('|', '~')
+
+	name = Reg( name ).strip()
 
 	result = name
 
@@ -102,6 +122,7 @@ if __name__ == '__main__':
 		for table in tables:
 
 			title = filter_name( (table.get_text().strip()) )
+
 			link = table.attrs['href']
 			print("====================")
 			print( '(' + str(cur) + '/'  + str(list_size) + ')' ) # 현재 진행도
